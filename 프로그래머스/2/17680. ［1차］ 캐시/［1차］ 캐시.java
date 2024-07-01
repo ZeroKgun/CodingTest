@@ -5,6 +5,7 @@ class Solution {
         int answer = 0;
         
         Queue<String> cache = new LinkedList<>();
+        
         for(int i = 0; i<cities.length; i++){
             cities[i] = cities[i].toLowerCase();
         }
@@ -13,9 +14,10 @@ class Solution {
         }
         for(int i = 0; i<cities.length; i++){
             if(cache.contains(cities[i])){ //hit
-                if(cache.size() == cacheSize){
-                    cache.remove(cities[i]);
-                }
+                // if(cache.size() == cacheSize){
+                //     cache.remove(cities[i]);
+                // }
+                cache.remove(cities[i]);
                 cache.offer(cities[i]);
                 answer += 1;
             }
