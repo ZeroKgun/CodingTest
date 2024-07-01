@@ -73,5 +73,11 @@
 <li>주어진 수가 1인 경우에 대한 조건 추가</li>
 </ul>
 
+<p>reminder
+int의 범위값을 넘으면 overflow가 발생 <br>
+int -> 4byte / -2,147,483,648 ~ 2,147,483,647 <br>
+long -> 8byte / 9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807 <br>
+long 변수에 값을 직접 넣을 경우 숫자 뒤에 L 붙여야 한다.
+</p>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
