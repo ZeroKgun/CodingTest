@@ -62,6 +62,9 @@
 
 <p>피보나치수는 0번째부터 0, 1, 1, 2, 3, 5, ... 와 같이 이어집니다.</p>
 
+###Reminder
+<p>Memoization, 재귀 안에서 이미 계산한 값은 저장해놓았다가 그냥 가져오기 </p>
+
 <h5>문제가 잘 안풀린다면😢</h5>
 
 <p>힌트가 필요한가요? [코딩테스트 연습 힌트 모음집]으로 오세요! → <a href="https://school.programmers.co.kr/learn/courses/14743?itm_content=lesson12945" target="_blank" rel="noopener">클릭</a></p>
