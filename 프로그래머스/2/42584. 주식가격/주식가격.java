@@ -3,20 +3,20 @@ import java.util.*;
 class Solution {
     public int[] solution(int[] prices) {
         int[] answer = new int[prices.length];
-        
-        Deque<Integer> stack = new ArrayDeque<>();
+        int cnt = 0;
         
         for(int i = 0; i<prices.length; i++){
-            while(!stack.isEmpty() && prices[stack.peek()] > prices[i]){
-                int idx = stack.pop();
-                answer[idx] = i - idx;
+            cnt = 0;
+            for(int j = i; j<prices.length; j++){
+                if(prices[i] > prices[j]){
+                    answer[i] = cnt;
+                    break;
+                }
+                cnt++;
+                if(j==prices.length-1){
+                    answer[i] = cnt-1;
+                }
             }
-            stack.push(i);
-        }
-        int len = answer.length-1;
-        while(!stack.isEmpty()){
-            int idx = stack.pop();
-            answer[idx] = len - idx;
         }
         return answer;
     }
