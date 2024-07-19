@@ -11,7 +11,8 @@ class Solution {
                     str = str.replace(word[j]," ");
                 }
             }
-            if(str.trim().isEmpty()) answer++;
+            str = str.replace(" ", "");
+            if(str.isBlank()) answer++;
         }
         return answer;
     }
