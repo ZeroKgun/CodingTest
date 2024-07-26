@@ -94,16 +94,13 @@ class Solution {
         visited = new boolean[rowLength][colLength];
         cnt = new int[rowLength][colLength];
         
-        
         bfsL(startR,startC,maps);
         visited = new boolean[rowLength][colLength];
-        for(int[] arr : cnt){
-            for(int num: arr){
-                System.out.print(num+" | ");
-            }
-            System.out.println();
+        
+        if(cnt[leverR][leverC]>0){
+            answer = bfsE(leverR,leverC,maps);
         }
-        return bfsE(leverR,leverC,maps);
+        return answer;
     }
 }
 
