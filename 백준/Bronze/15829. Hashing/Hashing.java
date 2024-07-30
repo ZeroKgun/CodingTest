@@ -1,25 +1,20 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int L = Integer.parseInt(br.readLine());
+		String S = br.readLine();
+		long result = 0;
+		long pow = 1;
+		for(int i = 0; i < L; i++) {
+			result += ((S.charAt(i) - 96) * pow);
+			pow = (pow * 31) % 1234567891;
+		}
+		System.out.println(result % 1234567891);
+	}
 
-    public static void main(String[] args) throws IOException {
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-
-        int num = Integer.parseInt(st.nextToken());
-        String str = br.readLine();
-        int hash = 0;
-
-        for(int i = 0; i < num; i++){
-            int tmp = (int) Math.pow(31,i);
-            int ch = str.charAt(i) - 'a' + 1;
-            
-            hash += ch * tmp;
-        }
-
-        System.out.println(hash);
-    }
 }
