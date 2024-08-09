@@ -1,39 +1,69 @@
 import java.util.*;
 
 class Solution {
-    int answer;
+    static int answer;
+    
     public int solution(int n, int[][] wires) {
-        answer = n;
+        int answer = n;
         
         Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int i = 1; i <= n; i++) {
+        
+        for(int i=1; i<=n; i++){
             graph.put(i, new ArrayList<>());
         }
-        for (int[] wire : wires) {
-            graph.get(wire[0]).add(wire[1]);
-            graph.get(wire[1]).add(wire[0]);
+        
+        for(int i=0; i<wires.length; i++){
+            int x = wires[i][0];
+            int y = wires[i][1];
+            
+            graph.get(x).add(y);
+            graph.get(y).add(x);
         }
         
-        
-        boolean[] visited = new boolean[n+1];
-        dfs(graph, visited, 1, n);
-        
+        for(int[] wire : wires){
+            int x = wire[0];
+            int y = wire[1];
+            
+            graph.get(x).remove(Integer.valueOf(y));
+            graph.get(y).remove(Integer.valueOf(x));
+            
+            int cnt1 = bfs(x,graph,n);
+            int cnt2 = n - cnt1;
+            
+            graph.get(x).add(y);
+            graph.get(y).add(x);
+            
+            int sub = Math.abs(cnt2 - cnt1);
+            
+            answer = Math.min(answer, sub);
+        }
         return answer;
     }
     
-    int dfs(Map<Integer, List<Integer>> graph, boolean[] visited, int cur, int n) {
-        int count = 1;
-        visited[cur] = true;
+    public int bfs(int start, Map<Integer,List<Integer>> graph, int n){
+        Queue<Integer> que = new ArrayDeque<>();
+        boolean[] visited = new boolean[n+1];
         
-        for (int next : graph.get(cur)) {
-            if (!visited[next]) {
-                count += dfs(graph, visited, next, n);
+        int cnt=1;
+        
+        que.add(start);
+        visited[start] = true;
+        
+        while(!que.isEmpty()){
+            int curr = que.remove();
+            
+            for(int next : graph.get(curr)){
+                if(!visited[next]){
+                    que.add(next);
+                    visited[next] = true;
+                    cnt++;
+                }
             }
         }
-      	
-        answer = Math.min(answer, Math.abs(n - count * 2));
-        
-      	
-        return count;
+        return cnt;        
     }
 }
+
+
+
+//전체 노드 n, 한 망이 m개일 때 n-2m 절댓값
