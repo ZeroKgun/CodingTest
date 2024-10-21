@@ -2,68 +2,43 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
-        int answer = -1;
-        int cnt = 0;
-        long sum1 = Arrays.stream(queue1).sum();
-        long sum2 = Arrays.stream(queue2).sum();
-        long total = sum1 + sum2;
-        long smallT = 0;
-        int size = queue1.length;
+        int n = queue1.length;
+        Queue<Integer> que1 = new ArrayDeque<>();
+        Queue<Integer> que2 = new ArrayDeque<>();
         
-        if(total % 2 != 0) return answer;
+        long sumOne = 0;
+        long sumTwo = 0;
+        int answer = 0;
         
-        Queue<Integer> small = new ArrayDeque<>();
-        Queue<Integer> big = new ArrayDeque<>();
-        if(sum1<sum2){
-            for(int num: queue1){
-                small.add(num);
-            }
-            for(int num: queue2){
-                big.add(num);
-            }
-            smallT = sum1;
-        }
-        else{
-            for(int num: queue2){
-                small.add(num);
-            }
-            for(int num: queue1){
-                big.add(num);
-            }
-            smallT = sum2;
+        for(int i=0; i<queue1.length; i++){
+            sumOne += queue1[i];
+            sumTwo += queue2[i];
+            que1.add(queue1[i]);
+            que2.add(queue2[i]);
         }
         
-        while(cnt<=4*size){
-            if(small.isEmpty()){
-                int tmp = big.remove();
-                small.add(tmp);
-                smallT = smallT + tmp;
-                cnt++;
+        if((sumOne + sumTwo) % 2 == 1) return -1;
+        // int target = (sumOne + sumTwo) / 2;
+        
+        for(int i=0; i< n * 4 ; i++){
+            if (sumOne == sumTwo){
+                return i;
             }
-            else if(big.isEmpty()){
-                int tmp = small.remove();
-                big.add(tmp);
-                smallT = smallT - tmp;
-                cnt++;
+            else if(sumOne < sumTwo){
+                int tmp = que2.poll();
+                que1.add(tmp);
+                sumOne += tmp;
+                sumTwo -= tmp;
             }
-            if(smallT < total/2){
-                int tmp = big.remove();
-                small.add(tmp);
-                smallT = smallT + tmp;
-                cnt++;
-            }
-            if(smallT > total/2){
-                int tmp = small.remove();
-                big.add(tmp);
-                smallT = smallT - tmp;
-                cnt++;
-            }
-            if(smallT == total / 2){
-                answer = cnt;
-                break;
+            else {
+                int tmp = que1.poll();
+                que2.add(tmp);
+                sumOne -= tmp;
+                sumTwo += tmp;
             }
         }
         
-        return answer;
+        
+        return -1;
     }
 }
