@@ -2,34 +2,54 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] answer = {};
-        ArrayList<Integer> complete = new ArrayList<>();
-        Queue<Integer> que = new ArrayDeque<>();
         
-        for(int i =0; i<progresses.length; i++){
-            int left = 100 - progresses[i];
-            int days = left / speeds[i];
-            if((left % speeds[i]) > 0) days++;
+        Deque<Integer> deque = new ArrayDeque<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        int[] times = new int[progresses.length];
+        int cnt = 0;
+        int max = 0;
+        
+        for(int i=0; i<progresses.length; i++){
             
-            que.add(days);
+            int t = (100 - progresses[i]) / speeds[i];
+            if((100-progresses[i])%speeds[i] > 0) t= t+1;
+            times[i] = t;
         }
         
-        while(!que.isEmpty()){
-            int max = que.remove();
-            int cnt = 1;
-            while(!que.isEmpty() && max >= que.peek()){
-                que.remove();
-                cnt++;
+        for(int time: times){
+            
+            if(deque.isEmpty()) {
+                deque.push(time);
+                max = time;
             }
-            complete.add(cnt);
+            else{
+                if(time > max){
+                    max = time;
+                    while(!deque.isEmpty()){
+                        deque.pop();
+                        cnt++;
+                    }
+                    result.add(cnt);
+                    cnt = 0;
+                    deque.push(time);
+                }
+                else{
+                    deque.push(time);
+                }
+            }
         }
-        answer = new int[complete.size()];
-        for(int i=0; i<answer.length ; i++){
-            answer[i] = complete.get(i);
+        while(!deque.isEmpty()){
+            deque.pop();
+            cnt++;
+        }
+        result.add(cnt);
+        int[] answer = new int[result.size()];
+        for(int i=0; i<answer.length; i++){
+            answer[i] = result.get(i);
         }
         return answer;
     }
 }
 
-// 7 , 3 , 9
-// 5 10 1 1 20 1
+//[7,3,9]
+//[5,10,1,1,20]
