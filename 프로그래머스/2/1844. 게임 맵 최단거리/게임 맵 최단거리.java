@@ -1,53 +1,44 @@
 import java.util.*;
 
-
 class Solution {
     
-    int[] dx = {1,-1,0,0};
-    int[] dy = {0,0,1,-1};
+    int[] dx = {0,1,0,-1};
+    int[] dy = {1,0,-1,0};
     
-    int[][] tmpmaps, visited;
+    int[][] visited;
     int n,m;
     
-    LinkedList<int[]> queue;
-    
-    public void bfs(){
-        visited[0][0] = 1;
-        queue = new LinkedList<int[]>();
-        queue.add(new int[]{0,0});
+    public int solution(int[][] maps) {
+        int answer = 0;
+        int n = maps.length;
+        int m = maps[0].length;
         
-        while(!queue.isEmpty()){
-            int[] current = queue.remove();
-            int x = current[0];
-            int y = current[1];
+        visited = new int[n][m];
+        visited[0][0] = 1;
+        
+        Queue<int []> que = new LinkedList<>();
+        
+        que.offer(new int[]{0,0});
+        
+        while(!que.isEmpty()){
+            int[] cur = que.poll();
             
-            for(int i = 0; i<4 ;i++){
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+            int curx = cur[0];
+            int cury = cur[1];
+            
+            for(int i =0;i<4;i++){
+                int nx = curx + dx[i];
+                int ny = cury + dy[i];
                 
-                if(nx < 0 || nx >tmpmaps.length - 1 || ny<0 || ny>tmpmaps[0].length -1){
-                    continue;
-                }
-                if(visited[nx][ny] == 0 && tmpmaps[nx][ny] == 1){
-                    visited[nx][ny] = visited[x][y] + 1;
-                    queue.add(new int[]{nx,ny});
+                if(nx>=0 && nx<n && ny>=0 && ny<m){
+                    if(visited[nx][ny] == 0 && maps[nx][ny] != 0){
+                        visited[nx][ny] = visited[curx][cury]+1;
+                        que.offer(new int[]{nx,ny});
+                    }
                 }
             }
         }
-    }
-    public int solution(int[][] maps) {
-        int answer = 0;
-        n = maps[0].length;
-        m = maps.length;
-        visited = new int[m][n];
-        this.tmpmaps = maps;
-        bfs();
-        if(visited[m-1][n-1] == 0){
-            answer = -1;
-        }
-        else {
-            answer = visited[m-1][n-1];
-        }
-        return answer;
+        if(visited[n-1][m-1] > 0) return visited[n-1][m-1];
+        else return -1;
     }
 }
