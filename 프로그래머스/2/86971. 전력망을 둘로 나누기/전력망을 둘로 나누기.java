@@ -1,15 +1,13 @@
 import java.util.*;
 
 class Solution {
-    static int answer;
-    
     public int solution(int n, int[][] wires) {
-        int answer = n;
+        int answer = Integer.MAX_VALUE;
         
         Map<Integer, List<Integer>> graph = new HashMap<>();
         
         for(int i=1; i<=n; i++){
-            graph.put(i, new ArrayList<>());
+            graph.put(i, new ArrayList<Integer>());
         }
         
         for(int i=0; i<wires.length; i++){
@@ -20,7 +18,7 @@ class Solution {
             graph.get(y).add(x);
         }
         
-        for(int[] wire : wires){
+        for(int[] wire: wires){
             int x = wire[0];
             int y = wire[1];
             
@@ -28,23 +26,24 @@ class Solution {
             graph.get(y).remove(Integer.valueOf(x));
             
             int cnt1 = bfs(x,graph,n);
-            int cnt2 = n - cnt1;
+            int cnt2 = n-cnt1;
             
             graph.get(x).add(y);
             graph.get(y).add(x);
             
-            int sub = Math.abs(cnt2 - cnt1);
+            int m = Math.abs(cnt1 - cnt2);
+            answer = Math.min(answer, m);
             
-            answer = Math.min(answer, sub);
         }
+        
         return answer;
     }
     
-    public int bfs(int start, Map<Integer,List<Integer>> graph, int n){
-        Queue<Integer> que = new ArrayDeque<>();
+    public int bfs(int start, Map<Integer, List<Integer>> graph, int n){
+        Queue<Integer> que = new LinkedList<>();
         boolean[] visited = new boolean[n+1];
         
-        int cnt=1;
+        int cnt = 1;
         
         que.add(start);
         visited[start] = true;
@@ -52,7 +51,7 @@ class Solution {
         while(!que.isEmpty()){
             int curr = que.remove();
             
-            for(int next : graph.get(curr)){
+            for(int next: graph.get(curr)){
                 if(!visited[next]){
                     que.add(next);
                     visited[next] = true;
@@ -60,10 +59,6 @@ class Solution {
                 }
             }
         }
-        return cnt;        
+        return cnt;
     }
 }
-
-
-
-//전체 노드 n, 한 망이 m개일 때 n-2m 절댓값
